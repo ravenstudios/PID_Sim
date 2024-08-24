@@ -2,16 +2,16 @@
 PID Controller sim
 
 
-## To install:
+# To install:
 [Make sure you have python installed on your computer](https://www.python.org/downloads/)
 
 
-##Install dependencies
+#Install dependencies
 ```
 pip3 install pygame
 pip3 install pygame_widgets
 ```
-##To Run:
+#To Run:
 ```
 git clone https://github.com/ravenstudios/PID_Sim.git
 cd PID_Sim
