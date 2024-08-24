@@ -17,7 +17,7 @@ class PID_Controller(object):
 
 
     def reset(self):
-        self.update_pid
+        self.update_pid(0, 0, 0, 0)
         self._prev_error = 0
         self._integral = 0
 
@@ -53,4 +53,10 @@ class PID_Controller(object):
         # output = max(self.output_min, min(self.output_max, output))
 
         # print(f"Output:{output}")
-        return output
+        return {
+            "P":p,
+            "I":i,
+            "D":d,
+            "output":output,
+            "error": error
+        }

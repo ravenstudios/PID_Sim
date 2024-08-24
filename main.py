@@ -89,7 +89,9 @@ def update(events):
     if ui.toggle_pid.getValue():
         sp, p, i, d = ui.get_values()
         pid.update_pid(sp, p, i, d)
-        fluid_container.change_level(pid.calc(fluid_container.get_level(), clock.tick(60) / 1000.0))
+        values = pid.calc(fluid_container.get_level(), clock.tick(60) / 1000.0)
+        ui.update_pid_values(values)
+        fluid_container.change_level(values["output"])
     else:
         pid.reset()
         fluid_container.set_level(0)

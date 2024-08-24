@@ -11,25 +11,38 @@ class UI():
 
 
         self.set_point_slider = Slider(surface, 200, 50, 200, 20, min=0, max=500, step=1, initial=50)
-        self.p_slider = Slider(surface, 200, 150, 200, 20, min=0, max=100, step=0.01, initial=0)
-        self.i_slider = Slider(surface, 200, 250, 200, 20, min=0, max=100, step=0.01, initial=0)
-        self.d_slider = Slider(surface, 200, 350, 200, 20, min=0, max=100, step=0.01, initial=0)
+        self.p_slider = Slider(surface, 200, 150, 200, 20, min=0, max=5, step=0.01, initial=0.1)
+        self.i_slider = Slider(surface, 200, 250, 200, 20, min=0, max=5, step=0.01, initial=0)
+        self.d_slider = Slider(surface, 200, 350, 200, 20, min=0, max=1, step=0.01, initial=0)
 
 
-        self.set_point_output = TextBox(surface, 475, 35, 100, 50, fontSize=30)
-        self.p_output = TextBox(surface, 475, 135, 100, 50, fontSize=30)
-        self.i_output = TextBox(surface, 475, 235, 100, 50, fontSize=30)
-        self.d_output = TextBox(surface, 475, 335, 100, 50, fontSize=30)
+        self.set_point_gain = TextBox(surface, 425, 35, 250, 50, fontSize=30)
+        self.p_gain = TextBox(surface, 425, 135, 250, 50, fontSize=30)
+        self.i_gain = TextBox(surface, 425, 235, 250, 50, fontSize=30)
+        self.d_gain = TextBox(surface, 425, 335, 250, 50, fontSize=30)
 
         self.toggle_pid_output = TextBox(surface, 800, 50, 120, 40, fontSize=20)
         self.toggle_pid_output.setText("Toggle PID")
         self.toggle_pid = Toggle(surface, 730, 60, 25, 25)
 
+        self.error = TextBox(surface, 475, 450, 250, 50, fontSize=30)
+        self.p_output = TextBox(surface, 475, 500, 250, 50, fontSize=30)
+        self.i_output = TextBox(surface, 475, 550, 250, 50, fontSize=30)
+        self.d_output = TextBox(surface, 475, 600, 250, 50, fontSize=30)
+        self.out_output = TextBox(surface, 475, 650, 250, 50, fontSize=30)
+
+        self.p_output.setText(f"P Output: {0}")
+        self.i_output.setText(f"I Output: {0}")
+        self.d_output.setText(f"D Output: {0}")
+        self.out_output.setText(f" Output: {0}")
+        self.error.setText(f" Error: {0}")
+
+
     def update(self, events):
-        self.set_point_output.setText(f"SP:{self.set_point_slider.getValue()}")
-        self.p_output.setText(f"P:{self.p_slider.getValue()}")
-        self.i_output.setText(f"I:{self.i_slider.getValue()}")
-        self.d_output.setText(f"D:{self.d_slider.getValue()}")
+        self.set_point_gain.setText(f"SP:{self.set_point_slider.getValue():0.2f}")
+        self.p_gain.setText(f"P:{self.p_slider.getValue():0.2f}")
+        self.i_gain.setText(f"I:{self.i_slider.getValue():0.2f}")
+        self.d_gain.setText(f"D:{self.d_slider.getValue():0.2f}")
         pygame_widgets.update(events)
 
     def get_values(self):
@@ -39,3 +52,10 @@ class UI():
             self.i_slider.getValue(),
             self.d_slider.getValue()
         ]
+
+    def update_pid_values(self, values):
+        self.p_output.setText(f"P Output: {values["P"]:0.2f}")
+        self.i_output.setText(f"I Output: {values["I"]:0.2f}")
+        self.d_output.setText(f"D Output: {values["D"]:0.2f}")
+        self.out_output.setText(f" Output: {values["output"]:0.2f}")
+        self.error.setText(f" Error: {values["error"]:0.2f}")
