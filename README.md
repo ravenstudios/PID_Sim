@@ -9,7 +9,7 @@ PID Controller sim
 ##Install dependencies
 ```
 pip3 install pygame
-pip3 insall pygame_widgets
+pip3 install pygame_widgets
 ```
 ##To Run:
 ```
