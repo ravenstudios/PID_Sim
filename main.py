@@ -3,6 +3,7 @@ import time
 import random
 import pygame
 import fluid_container
+import rotating_sim
 import pygame_widgets
 from pygame_widgets.slider import Slider
 from pygame_widgets.textbox import TextBox
@@ -24,6 +25,8 @@ sp, p, i, d = ui.get_values()
 
 
 pid = PID_controller.PID_Controller(sp, p, i, d, -10000, 10000)
+
+rotating_sim = rotating_sim.Rotating_sim(900, 300)
 
 prev_time = time.time()
 
@@ -78,6 +81,7 @@ def main():
 def draw():
     surface.fill((255, 255, 255))#background
     fluid_container.draw(surface)
+    rotating_sim.draw(surface)
     # pygame.display.flip()
 
 
@@ -85,13 +89,15 @@ def draw():
 def update(events):
     fluid_container.update(clock)
     ui.update(events)
+    rotating_sim.update(clock)
 
     if ui.toggle_pid.getValue():
         sp, p, i, d = ui.get_values()
         pid.update_pid(sp, p, i, d)
-        values = pid.calc(fluid_container.get_level(), clock.tick(60) / 1000.0)
+        rotating_sim.set_setpoint_angle(sp)
+        values = pid.calc(rotating_sim.output_angle, clock.tick(60) / 1000.0)
         ui.update_pid_values(values)
-        fluid_container.change_level(values["output"])
+        rotating_sim.set_accelerate(values["output"])
     else:
         pid.reset()
         fluid_container.set_level(0)
